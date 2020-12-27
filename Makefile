@@ -29,10 +29,13 @@ recreate: ## Force recreate and start the docker container
 	docker-compose up --build --force-recreate
 
 dbshow: ## Show tables
-	docker exec -it $(appContainer) bash -c 'mysqlshow $(containerDbCred)'
+	docker exec -it $(appContainer) bash -c 'mysqlshow $(containerDbCred) $(filter-out $@,$(MAKECMDGOALS))'
 
 dbschema: ## Dump mysql db
 	docker exec -it $(appContainer) bash -c 'mysqldump ${containerDbCred}  ${DB_DATABASE}'
+
+php-artisan: ## Runs php artisan commands
+	docker exec -it $(appContainer) bash -c "php artisan $(filter-out $@,$(MAKECMDGOALS))"
 
 testbuild: ## Build test docker image
 	# https://docs.docker.com/engine/reference/commandline/images/#filtering

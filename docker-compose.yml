@@ -1,0 +1,38 @@
+---
+version: "3.5"
+services:
+  user_api:
+    container_name: lumen_user_api
+    build:
+      context: ./vendor/bhaskarkc/php-nginx-server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./.:/var/www/html/
+    depends_on:
+      - user_api_db
+    extra_hosts:
+      - "local.user-api.com.au:127.0.0.1"
+    networks:
+      - database
+    command: [ "./vendor/vishnubob/wait-for-it/wait-for-it.sh", "user_api_db:3306", "--", "/run/entrypoint.sh" ]
+
+  user_api_db:
+    container_name: lumen_user_api_db
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=lumen
+      - MYSQL_USER=lumen
+      - MYSQL_PASSWORD=lumen
+      - MYSQL_ALLOW_EMPTY_PASSWORD=false
+    networks:
+      - database
+
+networks:
+  database:
+    name: mysql-db

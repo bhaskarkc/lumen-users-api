@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "080e929074bb7be513e0dbf6e3ee8b31",
+    "content-hash": "c3f8c148df0ddbd1f8d7e1efa927a232",
     "packages": [
         {
             "name": "brick/math",
@@ -4844,6 +4844,16 @@
     ],
     "packages-dev": [
         {
+            "name": "bhaskarkc/php-nginx-server",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:bhaskarkc/php-nginx-server.git",
+                "reference": "main"
+            },
+            "type": "library"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.4.0",
             "source": {
@@ -6971,6 +6981,16 @@
                 }
             ],
             "time": "2020-07-12T23:59:07+00:00"
+        },
+        {
+            "name": "vishnubob/wait-for-it",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:vishnubob/wait-for-it.git",
+                "reference": "master"
+            },
+            "type": "library"
         }
     ],
     "aliases": [],
@@ -6979,7 +6999,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.4|^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

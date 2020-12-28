@@ -15,7 +15,18 @@ class ExampleTest extends TestCase
         $this->get('/');
 
         $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
+            $this->app->version(),
+            $this->response->getContent()
         );
+    }
+
+    /**
+     * Test bool
+     *
+     * @return void
+     */
+    public function testBool()
+    {
+        $this->assertTrue(true);
     }
 }

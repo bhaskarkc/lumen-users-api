@@ -1,22 +1,22 @@
-# Makefile for DN
+# Makefile
 #
 #
 # Author: Bhaskar K <xlinkerz@gmail.com>
-#
+
+
 ## Load .env
 ifneq (,$(wildcard ./.env))
     include .env
     export
 endif
 
-containerDbCred =  -h$(DB_HOST) -u$(DB_USERNAME) -p$(DB_PASSWORD)
-
 .DEFAULT_GOAL := help
 SHELL := /usr/bin/env bash
 
+containerDbCred =  -h$(DB_HOST) -u$(DB_USERNAME) -p$(DB_PASSWORD)
 appContainer = lumen-user-api
-testImg = test-domainnews-img
-testContainer = test-domainnews
+testImg = test-img
+testContainer = test-lumen-user-api
 
 
 up: ## Spins up docker container
@@ -34,7 +34,7 @@ dbshow: ## Show tables
 dbschema: ## Dump mysql db
 	docker exec -it $(appContainer) bash -c 'mysqldump ${containerDbCred}  ${DB_DATABASE}'
 
-php-artisan: ## Runs php artisan commands
+artisan: ## Runs php artisan commands
 	docker exec -it $(appContainer) bash -c "php artisan $(filter-out $@,$(MAKECMDGOALS))"
 
 testbuild: ## Build test docker image
@@ -56,4 +56,4 @@ help: ## Prints this help screen.
 	@printf "================================================\t\t\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sed -e "s/Makefile://" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: help
+.PHONY: help artisan

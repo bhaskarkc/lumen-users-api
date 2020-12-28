@@ -1,6 +1,8 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+/**
+ * @var \Laravel\Lumen\Routing\Router $router
+*/
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +15,14 @@
 |
 */
 
-$router->get(
-    '/',
-    function () use ($router) {
+$router->get('/', function () use ($router) {
         return $router->app->version();
-    }
-);
+});
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+    $router->post('user', 'UserController@createUser');
+    $router->get('user', 'UserController@index');
+    $router->get('user/{id}', 'UserController@show');
+    $router->put('user/{id}', 'UserController@update');
+    $router->delete('user/{id}', 'UserController@destroy');
+});

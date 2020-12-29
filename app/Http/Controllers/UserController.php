@@ -19,6 +19,7 @@ class UserController extends Controller
     public function createUser(Request $request)
     {
         $user = User::create($request->all());
+        event(new UserEvent('New User Created.', $user));
         return response()->json($user);
     }
 
@@ -74,6 +75,7 @@ class UserController extends Controller
         $user->fill($request->all());
         $user->save();
 
+        event(new UserEvent('User Updated', $user));
         return response()->json($user);
     }
 
@@ -85,18 +87,18 @@ class UserController extends Controller
      */
     public function destroy(int $id)
     {
-        $deletedUser = User::destroy($id);
+        $user = User::find($id);
 
-        if ($deletedUser === 0) {
+        if (is_null($user)) {
             return response()->json(
                 ['error' => 'User not found'],
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        return response()->json(
-            [ 'message' => 'User deleted.' ],
-            Response::HTTP_OK
-        );
+        event(new UserEvent('User Deleted', $user));
+
+        $user->delete();
+        return response()->json(['message' => 'User deleted.'], Response::HTTP_OK);
     }
 }

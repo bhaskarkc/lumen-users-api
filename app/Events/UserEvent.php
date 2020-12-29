@@ -51,7 +51,7 @@ class UserEvent extends Event implements ShouldBroadcast
             'name'     => $this->user->name,
             'username' => $this->user->email,
             'action'   => ucfirst(strtolower($this->type)),
-            'on'       => Carbon::now()->toDateTimeString(),
+            'broadcast_time'       => Carbon::now()->toDateTimeString(),
         ];
     }
 

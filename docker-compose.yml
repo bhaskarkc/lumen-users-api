@@ -3,7 +3,7 @@ version: "3.5"
 services:
   user_api:
     container_name: lumen-user-api
-    user: "${UID}:${GID}"
+    user: "nobody:${GID}"
     build:
       context: ./vendor/bhaskarkc/php-nginx-server
       dockerfile: Dockerfile
@@ -18,7 +18,7 @@ services:
     extra_hosts:
       - "local.user-api.com.au:127.0.0.1"
     networks:
-      - database
+      - lumen_network
     command: [ "./vendor/vishnubob/wait-for-it/wait-for-it.sh", "user_api_db:3306", "--", "/run/entrypoint.sh" ]
 
   user_api_db:
@@ -32,8 +32,17 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_ALLOW_EMPTY_PASSWORD=false
     networks:
-      - database
+      - lumen_network
+
+  user_api_redis:
+    container_name: lumen-user-api-redis
+    image: redis:6.0-alpine
+    ports:
+      - "6382:6379"
+    networks:
+      - lumen_network
 
 networks:
-  database:
-    name: mysql-db
+  lumen_network:
+    name: lumen-user-api
+    driver: "bridge"

@@ -22,13 +22,17 @@ testContainer = test-lumen-user-api
 export UID=$(shell id -u)
 export GID=$(shell id -g)
 
-up: ## Spins up docker container
+fixpermission: ## Fix permission for "database" and "logs" dir
+	chmod -R g+wrX database/
+	chmod -R g+wrX storage/logs/
+
+up: fixpermission ## Spins up docker container
 	docker-compose up --build
 
 down: ## Tear down the docker container
 	docker-compose down
 
-recreate: ## Force recreate and start the docker container
+recreate: fixpermission ## Force recreate and start the docker container
 	docker-compose up --build --force-recreate
 
 dbshow: ## Show tables
@@ -53,7 +57,7 @@ phpunit: testbuild ## Builds a new test container and runs phpunit test on it
 phpunit-local: ## Runs phpunit from the application container.
 	docker exec -it $(appContainer) sh -c 'composer install --dev && vendor/bin/phpunit -c tests/phpunit/phpunit.xml'
 
-redisSubscribe: ## A redis cli tty to subscribe to users-event-channel: used for testing broadcasting events using redis websockets
+subscribe-channel: ## A redis cli tty to subscribe to users-event-channel: used for testing broadcasting events using redis websockets
 	docker exec -it lumen-user-api-redis sh -c 'redis-cli SUBSCRIBE users-event-channel'
 
 help: ## Prints this help screen.

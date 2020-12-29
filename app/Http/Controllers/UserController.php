@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Events\UserEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,9 +43,13 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (is_null($user)) {
-            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(
+                ['error' => 'User not found'],
+                Response::HTTP_NOT_FOUND
+            );
         }
 
+        event(new UserEvent('View User', $user));
         return response()->json($user);
     }
 
@@ -60,7 +65,10 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (is_null($user)) {
-            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(
+                ['error' => 'User not found'],
+                Response::HTTP_NOT_FOUND
+            );
         }
 
         $user->fill($request->all());
@@ -78,10 +86,17 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $deletedUser = User::destroy($id);
+
         if ($deletedUser === 0) {
-            return response()->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(
+                ['error' => 'User not found'],
+                Response::HTTP_NOT_FOUND
+            );
         }
 
-        return response()->json([ 'message' => 'User deleted.' ], Response::HTTP_OK);
+        return response()->json(
+            [ 'message' => 'User deleted.' ],
+            Response::HTTP_OK
+        );
     }
 }

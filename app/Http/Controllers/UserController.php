@@ -80,7 +80,7 @@ class UserController extends Controller
     }
 
     /**
-     * Deletes a new user
+     * Deletes a user
      *
      * @param int $id
      * @return json

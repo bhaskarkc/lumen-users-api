@@ -6,6 +6,12 @@ class UserAPITest extends TestCase
 {
     use DatabaseTransactions;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->expectsEvents('App\Events\UserEvent');
+    }
+
     public function testCreateUser()
     {
         $user = ['name' => 'Bhaskar', 'email' => 'xlinkerz@gmail.com'];

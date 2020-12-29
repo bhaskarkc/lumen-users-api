@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\UserEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ViewUserListener implements ShouldQueue
+class UserEventListener implements ShouldQueue
 {
 
     /**

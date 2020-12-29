@@ -19,6 +19,9 @@ testImg = test-img
 testContainer = test-lumen-user-api
 
 
+export UID=$(shell id -u)
+export GID=$(shell id -g)
+
 up: ## Spins up docker container
 	docker-compose up --build
 
@@ -56,4 +59,4 @@ help: ## Prints this help screen.
 	@printf "================================================\t\t\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sed -e "s/Makefile://" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: help artisan
+.PHONY: help artisan \-\-queue

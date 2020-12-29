@@ -1,5 +1,7 @@
 # Lumen Users API
 
+![Image](app-diagram.png)
+
 A simple API using laravel lumen framework.
 
 This API is just a demo of using Laravel Lumen framework to create an API and use redis websockets to broadcast events.
@@ -20,6 +22,9 @@ This API is just a demo of using Laravel Lumen framework to create an API and us
 ```
 
 ## Commandline help
+
+For now [`Makefile`](https://en.wikipedia.org/wiki/Makefile) is used for all cli commands which is just collection of some `docker-compose` and `docker` commands.
+We can always use the `docker` cli commands or even use `Laravel sail` to interact with docker containers.
 
 ### Makefile
 
@@ -71,6 +76,20 @@ Database: lumen  Table: users
 +------------+---------------------+--------------------+------+-----+---------+----------------+---------------------------------+---------+
 ```
 
+> make artisan migrate
+
+> make artisan
+
 ### Send data via redis Websocket: (Demo)
 
-![SVG](broadcasting-demo.svg)
+[Demo: redis-cli channel subscription.](https://raw.githubusercontent.com/bhaskarkc/lumen-users-api/main/broadcasting-demo.svg)
+
+On each API events there will be an event send out to redis websocket on channel name `users-event-channel`.
+
+The `docker-compose` file spins up a redis docker container along with the Lumen app and mysql.
+
+We can login into the redis container and subscribe to the channel from cli for testing. Or any other microservice can alos connecto to this container and subscribe to the channel.
+
+> make subscribe-channel
+
+> ![SVG](broadcasting-demo.svg)

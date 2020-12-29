@@ -5,13 +5,11 @@ namespace App\Events;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserEvent implements ShouldBroadcast
+class UserEvent extends Event implements ShouldBroadcast
 {
-    use SerializesModels;
     use InteractsWithSockets;
 
     /**

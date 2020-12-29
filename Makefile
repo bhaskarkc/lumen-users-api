@@ -24,7 +24,6 @@ export GID=$(shell id -g)
 
 fixpermission: ## Fix permission for "database" and "logs" dir
 	chmod -R g+wrX database/
-	chmod -R g+wrX storage/logs/
 
 up: fixpermission ## Spins up docker container
 	docker-compose up --build

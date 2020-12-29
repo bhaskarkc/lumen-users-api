@@ -53,6 +53,9 @@ phpunit: testbuild ## Builds a new test container and runs phpunit test on it
 phpunit-local: ## Runs phpunit from the application container.
 	docker exec -it $(appContainer) sh -c 'composer install --dev && vendor/bin/phpunit -c tests/phpunit/phpunit.xml'
 
+redisSubscribe: ## A redis cli tty to subscribe to users-event-channel: used for testing broadcasting events using redis websockets
+	docker exec -it lumen-user-api-redis sh -c 'redis-cli SUBSCRIBE users-event-channel'
+
 help: ## Prints this help screen.
 	@printf "================================================\t\t\n"
 	@printf "\t\t Lumen Users API \t\t\n"

@@ -3,7 +3,7 @@ version: "3.5"
 services:
   user_api:
     container_name: lumen-user-api
-    user: "nobody:${GID}"
+    # user: "nobody:${GID}"
     build:
       context: ./vendor/bhaskarkc/php-nginx-server
       dockerfile: Dockerfile

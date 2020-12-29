@@ -28,11 +28,11 @@
       "type": "package",
       "package": {
         "name": "bhaskarkc/php-nginx-server",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "source": {
           "url": "git@github.com:bhaskarkc/php-nginx-server.git",
           "type": "git",
-          "reference": "main"
+          "reference": "feature/priv-user"
         }
       }
     },

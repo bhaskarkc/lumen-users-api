@@ -1,10 +1,11 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class ExampleTest extends TestCase
+class UserAPITest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -20,13 +21,11 @@ class ExampleTest extends TestCase
         );
     }
 
-    /**
-     * Test bool
-     *
-     * @return void
-     */
-    public function testBool()
+    public function testCreateUser()
     {
-        $this->assertTrue(true);
+        $user = ['name' => 'Bhaskar', 'email' => 'xlinkerz@gmail.com'];
+        $response = $this->call('POST', '/api/v1/user', $user);
+        $this->assertEquals(200, $response->status());
+        $this->seeInDatabase('users', ['email' => 'xlinkerz@gmail.com']);
     }
 }

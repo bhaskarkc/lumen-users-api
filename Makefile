@@ -23,7 +23,7 @@ export UID=$(shell id -u)
 export GID=$(shell id -g)
 
 fixpermission: ## Fix permission for "database" and "logs" dir
-	chmod -R g+wrX database/
+	chmod -R g+wrX ./*
 
 up: fixpermission ## Spins up docker container
 	docker-compose up --build
@@ -48,13 +48,9 @@ testbuild: ## Build test docker image
 	docker images -aq --filter='reference=$(testContainer)' --format "{{.ID}}" | xargs -r -P $(procs) docker image rm -f || true
 	docker build -t $(testImg) -f  Dockerfile-test .
 
-phpunit: testbuild ## Builds a new test container and runs phpunit test on it
-	# https://docs.docker.com/engine/reference/commandline/ps/#filtering
-	docker ps -aq --filter name=^$(testContainer) | xargs -r -P $(procs) docker container rm -f || true
-	docker run --rm --name $(testContainer) $(testImg)  sh -c '/var/www/html/tests/phpunit/phpunit -c /var/www/html/tests/phpunit/phpunit.xml'
-
-phpunit-local: ## Runs phpunit from the application container.
-	docker exec -it $(appContainer) sh -c 'composer install --dev && vendor/bin/phpunit -c tests/phpunit/phpunit.xml'
+tests: ## Runs phpunit
+	# TODO: use test database and test container.
+	docker exec -it $(appContainer) sh -c 'php artisan migrate && php artisan db:seed --class=UserTableSeeder && ./vendor/bin/phpunit -c phpunit.xml'
 
 subscribe-channel: ## A redis cli tty to subscribe to users-event-channel: used for testing broadcasting events using redis websockets
 	docker exec -it lumen-user-api-redis sh -c 'redis-cli SUBSCRIBE users-event-channel'
@@ -65,4 +61,4 @@ help: ## Prints this help screen.
 	@printf "================================================\t\t\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sed -e "s/Makefile://" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: help artisan \-\-queue
+.PHONY: help artisan tests

@@ -2,7 +2,28 @@
 
 A simple API using laravel lumen framework.
 
+This API is just a demo of using Laravel Lumen framework to create an API and use redis websockets to broadcast events.
+
+## Routes
+
+```sh
++--------+-------------------+------+------------+------------+------------------------------------------------+
+| Method | URI               | Name | Action     | Middleware | Map To                                         |
++--------+-------------------+------+------------+------------+------------------------------------------------+
+| GET    | /                 |      | Closure    |            |                                                |
+| POST   | /api/v1/user      |      | Controller |            | App\Http\Controllers\UserController@createUser |
+| GET    | /api/v1/user      |      | Controller |            | App\Http\Controllers\UserController@index      |
+| GET    | /api/v1/user/{id} |      | Controller |            | App\Http\Controllers\UserController@show       |
+| PUT    | /api/v1/user/{id} |      | Controller |            | App\Http\Controllers\UserController@update     |
+| DELETE | /api/v1/user/{id} |      | Controller |            | App\Http\Controllers\UserController@destroy    |
++--------+-------------------+------+------------+------------+------------------------------------------------+
+```
+
 ## Commandline help
+
+### Makefile
+
+All commands are included in `Makefile`
 
 > make
 
@@ -21,6 +42,19 @@ phpunit-local   Runs phpunit from the application container.
 help            Prints this help screen.
 ```
 
+## PHP artisan command via `Makefile`
+
+> make artisan migrate
+
+```sh
+docker exec -it lumen-user-api bash -c "php artisan migrate:status"
++------+--------------------------------------+-------+
+| Ran? | Migration                            | Batch |
++------+--------------------------------------+-------+
+| Yes  | 2020_12_27_160122_create_table_users | 1     |
++------+--------------------------------------+-------+
+```
+
 > make dbshow lumen users
 
 ```sh
@@ -36,3 +70,7 @@ Database: lumen  Table: users
 | updated_at | timestamp           |                    | YES  |     |         |                | select,insert,update,references |         |
 +------------+---------------------+--------------------+------+-----+---------+----------------+---------------------------------+---------+
 ```
+
+### Send data via redis Websocket: (Demo)
+
+![SVG](broadcasting-demo.svg)

@@ -2,9 +2,20 @@
 
 ![Image](app-diagram.png)
 
-A simple API using laravel lumen framework.
+A simple **Demo** API using laravel lumen framework.
 
 This API is just a demo of using Laravel Lumen framework to create an API and use redis websockets to broadcast events.
+
+This repo used Docker Image from https://github.com/bhaskarkc/php-nginx-server (authored by myself) for creating docker containers.
+
+## Tech stack
+
+PHP8-FPM and Nginx are configured into single container with latest (edge) `Alpine linux` docker image.
+
+-   PHP 8.0
+-   Nginx 1.18.0
+-   Mysql 5.6
+-   Redis 6.0 (Alpine)
 
 ## Routes
 

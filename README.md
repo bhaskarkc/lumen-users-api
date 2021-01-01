@@ -6,7 +6,7 @@ A simple **Demo** API using laravel lumen framework.
 
 This API is just a demo of using Laravel Lumen framework to create an API and use redis websockets to broadcast events.
 
-This repo used Docker Image from https://github.com/bhaskarkc/php-nginx-server (authored by myself) for creating docker containers.
+This repo uses the base docker image from https://github.com/bhaskarkc/php-nginx-server (authored by myself) for the PHP8-FPM Nginx server.
 
 ## Tech stack
 
@@ -31,6 +31,15 @@ PHP8-FPM and Nginx are configured into single container with latest (edge) `Alpi
 | DELETE | /api/v1/user/{id} |      | Controller |            | App\Http\Controllers\UserController@destroy    |
 +--------+-------------------+------+------------+------------+------------------------------------------------+
 ```
+
+## Development setup
+
+i. Install dependencies: `composer install`
+ii. Spin up containers `make up`
+ii. Run migration `make artisan migrate`
+iii.Seed db with some fake data `docker exec -it 'php artisan db:seed --class=UserTableSeeder'`
+
+You can import the [Postman](<Lumen\ Users\ API.postman_collection.json>) export file and start testing the CRUD API.
 
 ## Commandline help
 

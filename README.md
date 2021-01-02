@@ -39,7 +39,7 @@ PHP8-FPM and Nginx are configured into single container with latest (edge) `Alpi
 3. Run migration `make artisan migrate`
 4. Seed db with some fake data `docker exec -it 'php artisan db:seed --class=UserTableSeeder'`
 
-You can import the [Postman](<Lumen\ Users\ API.postman_collection.json>) export file and start testing the CRUD API.
+You can import the [Postman](<Lumen Users API.postman_collection.json>) export file and start testing the CRUD API.
 
 ## Commandline help
 
